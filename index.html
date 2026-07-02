@@ -7,11 +7,292 @@
   </head>
   <body>
 
-    <!-- your inputs go here -->
+    <h1>Till Counter</h1>
+
+    <table>
+      <tr>
+        <th>Denomination</th>
+        <th>Count</th>
+        <th>Value</th>
+        <th></th>
+        <th></th>
+      </tr>
+
+      <!-- ROLLS -->
+      <tr><td colspan="5"><strong>Rolls</strong></td></tr>
+      <tr>
+        <td>Toonie Roll ($50.00)</td>
+        <td id="roll-toonie">0</td>
+        <td id="val-roll-toonie">$0.00</td>
+        <td><button onclick="adjust('roll-toonie', -1)">-</button></td>
+        <td><button onclick="adjust('roll-toonie', 1)">+</button></td>
+      </tr>
+      <tr>
+        <td>Loonie Roll ($25.00)</td>
+        <td id="roll-loonie">0</td>
+        <td id="val-roll-loonie">$0.00</td>
+        <td><button onclick="adjust('roll-loonie', -1)">-</button></td>
+        <td><button onclick="adjust('roll-loonie', 1)">+</button></td>
+      </tr>
+      <tr>
+        <td>Quarter Roll ($10.00)</td>
+        <td id="roll-quarter">0</td>
+        <td id="val-roll-quarter">$0.00</td>
+        <td><button onclick="adjust('roll-quarter', -1)">-</button></td>
+        <td><button onclick="adjust('roll-quarter', 1)">+</button></td>
+      </tr>
+      <tr>
+        <td>Dime Roll ($5.00)</td>
+        <td id="roll-dime">0</td>
+        <td id="val-roll-dime">$0.00</td>
+        <td><button onclick="adjust('roll-dime', -1)">-</button></td>
+        <td><button onclick="adjust('roll-dime', 1)">+</button></td>
+      </tr>
+      <tr>
+        <td>Nickel Roll ($2.00)</td>
+        <td id="roll-nickel">0</td>
+        <td id="val-roll-nickel">$0.00</td>
+        <td><button onclick="adjust('roll-nickel', -1)">-</button></td>
+        <td><button onclick="adjust('roll-nickel', 1)">+</button></td>
+      </tr>
+
+      <!-- COINS -->
+      <tr><td colspan="5"><strong>Coins</strong></td></tr>
+      <tr>
+        <td>Toonies ($2.00)</td>
+        <td id="coin-toonie">0</td>
+        <td id="val-coin-toonie">$0.00</td>
+        <td><button onclick="adjust('coin-toonie', -1)">-</button></td>
+        <td><button onclick="adjust('coin-toonie', 1)">+</button></td>
+      </tr>
+      <tr>
+        <td>Loonies ($1.00)</td>
+        <td id="coin-loonie">0</td>
+        <td id="val-coin-loonie">$0.00</td>
+        <td><button onclick="adjust('coin-loonie', -1)">-</button></td>
+        <td><button onclick="adjust('coin-loonie', 1)">+</button></td>
+      </tr>
+      <tr>
+        <td>Quarters ($0.25)</td>
+        <td id="coin-quarter">0</td>
+        <td id="val-coin-quarter">$0.00</td>
+        <td><button onclick="adjust('coin-quarter', -1)">-</button></td>
+        <td><button onclick="adjust('coin-quarter', 1)">+</button></td>
+      </tr>
+      <tr>
+        <td>Dimes ($0.10)</td>
+        <td id="coin-dime">0</td>
+        <td id="val-coin-dime">$0.00</td>
+        <td><button onclick="adjust('coin-dime', -1)">-</button></td>
+        <td><button onclick="adjust('coin-dime', 1)">+</button></td>
+      </tr>
+      <tr>
+        <td>Nickels ($0.05)</td>
+        <td id="coin-nickel">0</td>
+        <td id="val-coin-nickel">$0.00</td>
+        <td><button onclick="adjust('coin-nickel', -1)">-</button></td>
+        <td><button onclick="adjust('coin-nickel', 1)">+</button></td>
+      </tr>
+
+      <!-- BILLS -->
+      <tr><td colspan="5"><strong>Bills</strong></td></tr>
+      <tr>
+        <td>Fives ($5.00)</td>
+        <td id="bill-five">0</td>
+        <td id="val-bill-five">$0.00</td>
+        <td><button onclick="adjust('bill-five', -1)">-</button></td>
+        <td><button onclick="adjust('bill-five', 1)">+</button></td>
+      </tr>
+      <tr>
+        <td>Tens ($10.00)</td>
+        <td id="bill-ten">0</td>
+        <td id="val-bill-ten">$0.00</td>
+        <td><button onclick="adjust('bill-ten', -1)">-</button></td>
+        <td><button onclick="adjust('bill-ten', 1)">+</button></td>
+      </tr>
+      <tr>
+        <td>Twenties ($20.00)</td>
+        <td id="bill-twenty">0</td>
+        <td id="val-bill-twenty">$0.00</td>
+        <td><button onclick="adjust('bill-twenty', -1)">-</button></td>
+        <td><button onclick="adjust('bill-twenty', 1)">+</button></td>
+      </tr>
+    </table>
+
+    <br>
+    <button onclick="calculate()">Calculate</button>
+
+    <!-- RESULTS -->
+    <div id="results-remove" style="display:none">
+      <h2>Remove Today</h2>
+      <table id="table-remove">
+        <tr><th>Denomination</th><th>Count</th><th>Value</th></tr>
+      </table>
+    </div>
+
+    <div id="results-tomorrow" style="display:none">
+      <h2>Tomorrow's Float</h2>
+      <table id="table-tomorrow">
+        <tr><th>Denomination</th><th>Count</th><th>Value</th></tr>
+      </table>
+      <h2>Bills for $126</h2>
+      <table id="table-bills">
+        <tr><th>Denomination</th><th>Count</th><th>Value</th></tr>
+      </table>
+    </div>
 
     <script>
-      // your logic goes here
-    </script>
 
+      const denomValues = {
+        'roll-toonie':  5000,
+        'roll-loonie':  2500,
+        'roll-quarter': 1000,
+        'roll-dime':    500,
+        'roll-nickel':  200,
+        'coin-toonie':  200,
+        'coin-loonie':  100,
+        'coin-quarter': 25,
+        'coin-dime':    10,
+        'coin-nickel':  5,
+        'bill-five':    500,
+        'bill-ten':     1000,
+        'bill-twenty':  2000
+      }
+
+      const getDollarValue = cents => '$' + (cents / 100).toFixed(2)
+
+      function adjust(id, delta) {
+        let el = document.getElementById(id)
+        let newCount = Math.max(0, parseInt(el.innerText) + delta)
+        el.innerText = newCount
+        document.getElementById('val-' + id).innerText = getDollarValue(newCount * denomValues[id])
+      }
+
+      function addRow(tableId, name, count, value, isBold) {
+        let table = document.getElementById(tableId)
+        let row = table.insertRow()
+        let content = `<td>${name}</td><td>${count}</td><td>${getDollarValue(value)}</td>`
+        row.innerHTML = isBold ? `<td><strong>${name}</strong></td><td></td><td><strong>${getDollarValue(value)}</strong></td>` : content
+      }
+
+      function clearTable(tableId) {
+        let table = document.getElementById(tableId)
+        while (table.rows.length > 1) table.deleteRow(1)
+      }
+
+      function calculate() {
+
+        let rolls = [
+          { name: "Toonie Roll", value: 5000, count: parseInt(document.getElementById("roll-toonie").innerText) },
+          { name: "Loonie Roll", value: 2500, count: parseInt(document.getElementById("roll-loonie").innerText) },
+          { name: "Quarter Roll", value: 1000, count: parseInt(document.getElementById("roll-quarter").innerText) },
+          { name: "Dime Roll",   value: 500,  count: parseInt(document.getElementById("roll-dime").innerText) },
+          { name: "Nickel Roll", value: 200,  count: parseInt(document.getElementById("roll-nickel").innerText) },
+        ]
+
+        let coins = [
+          { name: "Toonie",  value: 200, count: parseInt(document.getElementById("coin-toonie").innerText),  removed: 0 },
+          { name: "Loonie",  value: 100, count: parseInt(document.getElementById("coin-loonie").innerText),  removed: 0 },
+          { name: "Quarter", value: 25,  count: parseInt(document.getElementById("coin-quarter").innerText), removed: 0 },
+          { name: "Dime",    value: 10,  count: parseInt(document.getElementById("coin-dime").innerText),    removed: 0 },
+          { name: "Nickel",  value: 5,   count: parseInt(document.getElementById("coin-nickel").innerText),  removed: 0 },
+        ]
+
+        let bills = [
+          { name: "Five",   value: 500,  count: parseInt(document.getElementById("bill-five").innerText),   taken: 0 },
+          { name: "Ten",    value: 1000, count: parseInt(document.getElementById("bill-ten").innerText),    taken: 0 },
+          { name: "Twenty", value: 2000, count: parseInt(document.getElementById("bill-twenty").innerText), taken: 0 },
+        ]
+
+        // phase 1 — float total
+        let rollsTotal = rolls.reduce((sum, roll) => sum + roll.value * roll.count, 0)
+        let coinsTotal = coins.reduce((sum, coin) => sum + coin.value * coin.count, 0)
+        let float_total = rollsTotal + coinsTotal
+
+        // phase 2 — find target
+        let totalDollars  = Math.floor(float_total / 100)
+        let onesDigit     = totalDollars % 10
+        let subtract      = (onesDigit + 4) % 5
+        let targetDollars = totalDollars - subtract
+        let targetCents   = targetDollars * 100
+        let removalCents  = float_total - targetCents
+
+        // phase 3 — greedy coin removal with retry
+        let coins_snapshot = coins.map(coin => ({...coin}))
+
+        function greedyAlgorithm(removalValue) {
+          for (let i = 0; i < coins.length; i++) {
+            let canAfford = Math.floor(removalValue / coins[i].value)
+            let take = Math.min(canAfford, coins[i].count)
+            coins[i].count -= take
+            coins[i].removed = take
+            removalValue -= take * coins[i].value
+          }
+          return removalValue
+        }
+
+        let afterRemoval = 1
+        while (afterRemoval != 0 && targetCents > 0) {
+          coins = coins_snapshot.map(coin => ({...coin}))
+          afterRemoval = greedyAlgorithm(removalCents)
+          if (afterRemoval != 0) {
+            targetCents -= 500
+            removalCents = float_total - targetCents
+          }
+        }
+
+        // phase 4 — bill breakdown
+        let billTarget = 12600 - targetCents
+        for (let i = 0; i < bills.length; i++) {
+          let billAvailable = Math.min(Math.floor(billTarget / bills[i].value), bills[i].count)
+          if (i < bills.length - 1) {
+            if ((billTarget - billAvailable * bills[i].value) % bills[i + 1].value > 0) {
+              billAvailable -= 1
+            }
+          }
+          bills[i].taken = billAvailable
+          billTarget -= billAvailable * bills[i].value
+        }
+
+        // display — remove today
+        clearTable('table-remove')
+        for (let coin of coins) {
+          if (coin.removed > 0) {
+            addRow('table-remove', coin.name, coin.removed, coin.removed * coin.value, false)
+          }
+        }
+        let totalRemoved = coins.reduce((sum, coin) => sum + coin.removed * coin.value, 0)
+        addRow('table-remove', 'Total', '', totalRemoved, true)
+        document.getElementById('results-remove').style.display = 'block'
+
+        // display — tomorrow's float
+        clearTable('table-tomorrow')
+
+        let rollsTomorrowTotal = rolls.reduce((sum, roll) => sum + roll.value * roll.count, 0)
+        for (let roll of rolls) {
+          addRow('table-tomorrow', roll.name, roll.count, roll.value * roll.count, false)
+        }
+        addRow('table-tomorrow', 'Rolls Total', '', rollsTomorrowTotal, true)
+
+        let coinsTomorrowTotal = coins.reduce((sum, coin) => sum + coin.count * coin.value, 0)
+        for (let coin of coins) {
+          addRow('table-tomorrow', coin.name, coin.count, coin.count * coin.value, false)
+        }
+        addRow('table-tomorrow', 'Coins Total', '', coinsTomorrowTotal, true)
+
+        addRow('table-tomorrow', 'Float Total', '', rollsTomorrowTotal + coinsTomorrowTotal, true)
+
+        // display — bills
+        clearTable('table-bills')
+        let billsTotal = bills.reduce((sum, bill) => sum + bill.taken * bill.value, 0)
+        for (let bill of bills) {
+          addRow('table-bills', bill.name, bill.taken, bill.taken * bill.value, false)
+        }
+        addRow('table-bills', 'Bills Total', '', billsTotal, true)
+
+        document.getElementById('results-tomorrow').style.display = 'block'
+      }
+
+    </script>
   </body>
 </html>
